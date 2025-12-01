@@ -1,10 +1,44 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+const Counter = ({ end, label }) => {
+  const [count, setCount] = useState(0);
+  const [ref, inView] = useInView({ triggerOnce: true });
+
+  useEffect(() => {
+    if (inView) {
+      let start = 0;
+      const duration = 2000;
+      const increment = end / (duration / 16);
+
+      const timer = setInterval(() => {
+        start += increment;
+        if (start > end) {
+          setCount(end);
+          clearInterval(timer);
+        } else {
+          setCount(Math.floor(start));
+        }
+      }, 16);
+
+      return () => clearInterval(timer);
+    }
+  }, [inView, end]);
+
+  return (
+    <div ref={ref}>
+      <h3 className="text-4xl md:text-5xl lg:text-6xl font-black text-white">
+        {count === end ? end : count}+
+      </h3>
+      <p className="text-base md:text-lg mt-2">{label}</p>
+    </div>
+  );
+};
 
 function App() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
  
   const slides = [
@@ -21,41 +55,16 @@ function App() {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 100);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
  
   
-  const Counter = ({ end, label }) => {
-    const [count, setCount] = useState(0);
-    const [ref, inView] = useInView({ triggerOnce: true });
-
-    useEffect(() => {
-      if (inView) {
-        let start = 0;
-        const duration = 2000;
-        const increment = end / (duration / 16);
-
-        const timer = setInterval(() => {
-          start += increment;
-          if (start > end) {
-            setCount(end);
-            clearInterval(timer);
-          } else {
-            setCount(Math.floor(start));
-          }
-        }, 16);
-
-        return () => clearInterval(timer);
-      }
-    }, [inView, end]);
-
-    return (
-      <div ref={ref}>
-        <h3 className="text-5xl md:text-6xl font-black text-white">
-          {count === end ? end : count}+
-        </h3>
-        <p className="text-lg mt-2">{label}</p>
-      </div>
-    );
-  };
 
   return (
     <>
@@ -81,76 +90,88 @@ function App() {
         </div>
 
         {/* Navbar with Framer Motion */}
-        <motion.header
-          initial={{ y: -100 }}
-          animate={{ y: 0 }}
-          transition={{ duration: 0.8, type: "spring", stiffness: 80 }}
-          className="fixed top-0 left-0 right-0 z-50 px-6 py-6 md:px-12 lg:px-24"
+     <motion.header
+  initial={{ y: -100 }}
+  animate={{ y: 0 }}
+  transition={{ duration: 0.8, type: "spring", stiffness: 80 }}
+  className={`fixed top-0 left-0 right-0 z-50 px-6 py-6 md:px-12 lg:px-24 transition-all duration-400 ${
+    scrolled ? " backdrop-blur-md shadow-lg" : "bg-transparent"
+  }`}
+>
+  <div className="flex justify-between items-center">
+   
+    <img
+      src="/src/assets/logo.png"
+      alt="Saferni Logo"
+      className="h-10 md:h-12 object-contain"
+    />
+
+    {/* Desktop Menu */}
+    <nav className={`hidden md:flex gap-10 text-lg font-medium ml-auto ${
+      scrolled ? "text-[#0d2a30]" : "text-white"
+    }`}>
+      {["Home", "About", "Services", "Contact"].map((item) => (
+        <motion.a
+          key={item}
+          href={`#${item}`}
+          className="relative hover:text-yellow-400 transition"
+          whileHover={{ scale: 1.1 }}
         >
-          <div className="flex justify-between items-center">
-            <img
-              src="/src/assets/logo.png"
-              alt="Saferni Logo"
-              className="h-10 md:h-12 object-contain"
-            />
+          {item}
+          <motion.span
+            className="absolute -bottom-1 left-0 w-0 h-0.5 bg-yellow-400"
+            whileHover={{ width: "100%" }}
+            transition={{ duration: 0.3 }}
+          />
+        </motion.a>
+      ))}
+    </nav>
 
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden ml-auto text-white text-3xl"
-            >
-              ☰
-            </button>
+    {/* زر الهمبرغر + القائمة المنسدلة تحته مباشرة */}
+    <div className="md:hidden relative">
+      <button
+        onClick={() => setIsMenuOpen(!isMenuOpen)}
+        className={`text-4xl transition-colors duration-300 ${
+          scrolled ? "text-[#0d2a30]" : "text-white"
+        }`}
+      >
+       ☰
+      </button>
 
-            <nav className="hidden md:flex gap-10 text-white text-lg font-medium ml-auto">
-              {["Home", "About", "Services", "Contact"].map((item) => (
-                <motion.a
-                  key={item}
-                  href={`#${item}`}
-                  className="relative hover:text-yellow-400 transition"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  {item}
-                  <motion.span
-                    className="absolute -bottom-1 left-0 w-0 h-0.5 bg-yellow-400"
-                    whileHover={{ width: "100%" }}
-                    transition={{ duration: 0.3 }}
-                  />
-                </motion.a>
-              ))}
-            </nav>
-          </div>
-          <div className="w-full h-px bg-white/40 mt-4" />
-        </motion.header>
+      {/* القائمة المنسدلة (dropdown) */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+            className="absolute top-16 right-0 w-48 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden"
+          >
+            {["Home", "About", "Services", "Contact"].map((item) => (
+              <a
+                key={item}
+                href={`#${item}`}
+                onClick={() => setIsMenuOpen(false)}
+                className="block px-8 py-4 text-[#0d2a30] hover:bg-yellow-50 hover:text-yellow-600 font-medium transition"
+              >
+                {item}
+              </a>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  </div>
+
+  {/* الخط الأفقي تحت النافبار */}
+  {/* <div className={`w-full h-px mt-4 transition-colors ${
+    scrolled ? "bg-gray-300" : "bg-white/30"
+  }`} /> */}
+</motion.header>
 
         {/* Mobile Menu */}
-        <AnimatePresence>
-          {isMenuOpen && (
-            <motion.nav
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-              className="md:hidden bg-black/90 backdrop-blur-lg fixed top-20 left-0 right-0 z-40 px-6 py-6"
-            >
-              <div className="flex flex-col gap-6 text-white text-lg font-medium">
-                {["Home", "About", "Services", "Contact"].map((item) => (
-                  <motion.a
-                    key={item}
-                    href={`#${item}`}
-                    className="hover:text-yellow-400 transition"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {item}
-                  </motion.a>
-                ))}
-              </div>
-            </motion.nav>
-          )}
-        </AnimatePresence>
+       
 
         {/* Hero Content */}
         <div className="relative z-10 max-w-4xl mx-auto text-center px-6">
@@ -158,26 +179,26 @@ function App() {
   {[...Array(5)].map((_, i) => (
     <span
       key={i}
-      className="text-4xl md:text-6xl text-yellow-400 drop-shadow-2xl"
+      className="text-3xl md:text-5xl text-yellow-400 drop-shadow-2xl"
     >
       ★
     </span>
   ))}
 </div>
-          <h2 className="text-5xl md:text-7xl font-black leading-tight">
+          <h2 className="text-4xl md:text-6xl lg:text-7xl font-black leading-tight">
             follow your destination
           </h2>
-          <p className="text-4xl md:text-6xl font-bold mt-6 mb-12">
+          <p className="text-3xl md:text-5xl lg:text-6xl font-bold mt-6 mb-12">
             App number 1 in <span className="text-yellow-400">Syria</span>
           </p>
-          <button className="bg-[#243D42] hover:bg-[#0d2a30] text-white font-bold py-3 sm:py-5 px-8 sm:px-16 rounded-3xl text-lg sm:text-xl transition transform hover:scale-105 shadow-2xl border border-white/20">
+          <button className="bg-[#243D42] hover:bg-[#0d2a30] text-white font-bold py-2 sm:py-3 md:py-5 px-6 sm:px-8 md:px-16 rounded-3xl text-base sm:text-lg md:text-xl transition transform hover:scale-105 shadow-2xl border border-white/20">
             Book Now
           </button>
         </div>
 
         {/* Stats Counter */}
-        <div className="absolute bottom-0 left-0 right-0 bg-[#243D42] py-12">
-          <div className="container mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div className="absolute bottom-0 left-0 right-0 bg-[#243D42] py-8 md:py-12">
+          <div className="container mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <Counter end={100} label="Customer" />
             <Counter end={50} label="Bus" />
             <Counter end={10} label="City" />
@@ -386,4 +407,5 @@ function App() {
 }
 
 export default App;
+
 

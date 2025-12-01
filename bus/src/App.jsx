@@ -14,7 +14,7 @@ function App() {
        
        <header className="fixed top-0 left-0 right-0 z-50 bg-transparent  px-6 py-6 md:px-12 lg:px-24 transition">
   <div className="flex justify-between items-center">
-    <h1 className="text-2xl md:text-3xl font-extrabold text-black">SAFERNI</h1>
+    <h1 className="text-2xl md:text-3xl font-extrabold text-gray">SAFERNI</h1>
 
     <nav className="hidden md:flex gap-10 text-[#519CAB] text-lg font-medium">
       <a href="#Home" className="hover:text-yellow-400 transition">Home</a>
@@ -43,14 +43,32 @@ function App() {
         </div>
 
    
-        <div className="absolute bottom-0 left-0 right-0 bg-[#243D42] py-10">
-          <div className="container grid grid-cols-2 md:grid-cols-4 gap-8 text-center text-white bg-[#243D42] h-3 mb-3">
-            <div><h3 className="text-4xl md:text-3xl font-black text-yellow-400">+100</h3><p className="text-lg">Customer</p></div>
-            <div><h3 className="text-4xl md:text-3xl font-black text-yellow-400">+50</h3><p className="text-lg">Bus</p></div>
-            <div><h3 className="text-4xl md:text-3xl font-black text-yellow-400">+10</h3><p className="text-lg">City</p></div>
-            <div><h3 className="text-4xl md:text-3xl font-black text-yellow-400">+70</h3><p className="text-lg">Success</p></div>
-          </div>
-        </div>
+<div className="absolute bottom-0 left-0 right-0 bg-[#243D42] py-10">
+  <div className="container mx-auto grid grid-cols-2 md:grid-cols-4 gap-12 justify-center items-center text-center text-white">
+    
+    <div>
+      <h3 className="text-4xl md:text-3xl font-black text-yellow-400">+100</h3>
+      <p className="text-lg">Customer</p>
+    </div>
+
+    <div>
+      <h3 className="text-4xl md:text-3xl font-black text-yellow-400">+50</h3>
+      <p className="text-lg">Bus</p>
+    </div>
+
+    <div>
+      <h3 className="text-4xl md:text-3xl font-black text-yellow-400">+10</h3>
+      <p className="text-lg">City</p>
+    </div>
+
+    <div>
+      <h3 className="text-4xl md:text-3xl font-black text-yellow-400">+70</h3>
+      <p className="text-lg">Success</p>
+    </div>
+
+  </div>
+</div>
+
       </section>
 
     
@@ -166,7 +184,7 @@ function App() {
     </div>
 
    
-    <div className="flex-1 mt-14 relative -top-10 left-80 ">
+    <div className="flex-1 mt-14 relative -top-10 left-90 ">
       <p className="text-gray-500 text-lg max-w-md leading-relaxed">
         At Safarni, we make traveling across Syria simple, reliable, and stress-free.
         Our mission is to connect people with every destination through an easy-to-use
@@ -181,7 +199,7 @@ function App() {
   <div className="relative flex justify-end mt-20">
     
    
-    <h3 className="relative -top-70  left-50  text-[80px] font-extrabold text-yellow-500 opacity-30 z-10">
+    <h3 className="relative -top-70  left-20  text-[80px] font-extrabold text-yellow-500 opacity-30 z-10">
       Since 1940
     </h3>
 
@@ -189,7 +207,7 @@ function App() {
     <img
       src="/src/assets/people-bus.png"
       alt="people"
-      className="w-[400px] rounded-3xl relative z-20 -mt-10 drop-shadow-xl  -top-38  right-50"
+      className="w-[400px] rounded-3xl relative z-20 -mt-10 drop-shadow-xl  -top-38  right-80"
     />
 
   </div>
@@ -248,9 +266,9 @@ function App() {
           </form>
 
           <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-10 text-white">
-            <div className="bg-white/20 backdrop-blur p-8 rounded-2xl">Call: +963 999 999 999</div>
+            <div className="bg-white/20 backdrop-blur p-8 rounded-2xl">Call: +963 987 654 321</div>
             <div className="bg-white/20 backdrop-blur p-8 rounded-2xl">Email: support@saferni.com</div>
-            <div className="bg-white/20 backdrop-blur p-8 rounded-2xl">WhatsApp: +963 999 999 999</div>
+            <div className="bg-white/20 backdrop-blur p-8 rounded-2xl">WhatsApp: +963 987 654 321</div>
           </div>
         </div>
       </section>

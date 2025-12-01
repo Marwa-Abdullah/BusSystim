@@ -42,7 +42,7 @@ function App() {
           <p className="text-4xl md:text-5xl font-bold mt-4 mb-10">
             App number 1 in <span className="text-yellow-400">Syria</span>
           </p>
-          <button className="bg-[#243D42] hover:bg-[#1a4d8a] text-white font-bold py-5 px-14 rounded-3xl text-xl transition transform hover:scale-105 shadow-2xl border border-white/20">
+          <button className="bg-[#243D42] hover:bg-[#0d2a30] text-white font-bold py-5 px-14 rounded-3xl text-xl transition transform hover:scale-105 shadow-2xl border border-white/20">
             Book Now
           </button>
         </div>

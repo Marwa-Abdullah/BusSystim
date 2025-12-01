@@ -14,9 +14,14 @@ function App() {
        
        <header className="fixed top-0 left-0 right-0 z-50 bg-transparent  px-6 py-6 md:px-12 lg:px-24 transition">
   <div className="flex justify-between items-center">
-    <h1 className="text-2xl md:text-3xl font-extrabold text-gray">SAFERNI</h1>
+    <img 
+  src="/src/assets/logo.png" 
+  alt="Saferni Logo" 
+  className="h-10 md:h-12 object-contain"
+/>
 
-    <nav className="hidden md:flex gap-10 text-[#519CAB] text-lg font-medium">
+
+    <nav className="hidden md:flex gap-10 text-[#FFC64F] text-lg font-medium">
       <a href="#Home" className="hover:text-yellow-400 transition">Home</a>
       <a href="#About" className="hover:text-yellow-400 transition">About</a>
       <a href="#Services" className="hover:text-yellow-400 transition">Services</a>
@@ -147,7 +152,7 @@ function App() {
     <div className="flex items-center justify-center gap-6 mt-6">
       <div className="h-px flex-1 border-t-2 border-dashed border-gray-300"></div>
 
-      <button className="bg-yellow-400 px-8 py-3 rounded-full font-bold text-gray-900 text-lg shadow-md">
+      <button className="bg-yellow-400 px-8 py-3 rounded-full font-bold text-gray-900 text-lg shadow-md  hover:bg-yellow-600">
         Book Now
       </button>
 

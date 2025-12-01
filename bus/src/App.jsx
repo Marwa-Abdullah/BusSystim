@@ -6,14 +6,14 @@ function App() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // صور الـ Slider في الهيرو
+ 
   const slides = [
     "/src/assets/hero11.jpg",
     "/src/assets/hero2.jpg",
     "/src/assets/hero3.jpg",
   ];
 
-  // تغيير الصورة كل 5 ثواني
+ 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
@@ -21,7 +21,8 @@ function App() {
     return () => clearInterval(interval);
   }, []);
 
-  // كونتر للأرقام
+ 
+  
   const Counter = ({ end, label }) => {
     const [count, setCount] = useState(0);
     const [ref, inView] = useInView({ triggerOnce: true });
@@ -189,7 +190,7 @@ function App() {
    {/* ===== SECOND SECTION - SAFERNI ===== */}
    <section className="relative min-h-screen bg-[#f5f1e9] flex flex-col items-center justify-center overflow-hidden pt-40 pb-20">
 
-   {/* الخلفيات */}
+  
    <img src="/src/assets/p2.png"
      className="absolute top-32 sm:top-20 md:top-30 left-1/2 -translate-x-1/2 w-24 sm:w-64 md:w-[500px] lg:w-[600px] opacity-70 " />
 
@@ -199,7 +200,7 @@ function App() {
    <img src="/src/assets/bus-sketch.png"
      className="absolute top-12 sm:top-24 right-2 sm:right-10 w-24 sm:w-44 md:w-60" />
 
-  {/* النص فوق */}
+
   <p className="text-black text-lg sm:text-xl font-light tracking-wide z-20 text-center mb-4">
     Follow the Destination
   </p>
@@ -220,7 +221,7 @@ function App() {
   {/* الباص */}
   <img
     src="/src/assets/bus.png"
-    className="relative z-20 w-[300px] sm:w-[450px] md:w-[900px] max-w-[95%] -mt-2 sm:-mt-4 md:-mt-8 drop-shadow-2xl"
+    className="relative z-20 w-[300px] sm:w-[450px] md:w-[900px] max-w-[95%] -mt-2 sm:-mt-4 md:-mt-1 drop-shadow-2xl"
     alt="bus"
   />
 
